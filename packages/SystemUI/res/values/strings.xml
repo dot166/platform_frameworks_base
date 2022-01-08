@@ -1761,7 +1761,7 @@
     <string name="media_projection_action_text">Start now</string>
 
     <!-- Text which is shown in the notification shade when there are no notifications. [CHAR LIMIT=30] -->
-    <string name="empty_shade_text">No notifications</string>
+    <string name="empty_shade_text">Dont U have any friend</string>
 
     <!-- Text which is shown in the expanded notification shade when there are currently no notifications visible that the user hasn't already seen. [CHAR LIMIT=30] -->
     <string name="no_unseen_notif_text">No new notifications</string>
