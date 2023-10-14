@@ -33,6 +33,20 @@
     android:paddingStart="0dp"
     android:elevation="4dp" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="-50dp"
+        android:layout_marginRight="-50dp" >
+
+        <ImageView 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/statusbar_miku"
+            android:background="@drawable/qs_header_image_background" />
+    </LinearLayout>
+
     <com.android.systemui.qs.QuickQSPanel
         android:id="@+id/quick_qs_panel"
         android:layout_width="match_parent"
