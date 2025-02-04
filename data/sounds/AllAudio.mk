@@ -234,3 +234,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/effects/ogg/NFCSuccess.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/NFCSuccess.ogg \
     $(LOCAL_PATH)/effects/ogg/NFCTransferComplete.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/NFCTransferComplete.ogg \
     $(LOCAL_PATH)/effects/ogg/NFCTransferInitiated.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ui/NFCTransferInitiated.ogg \
+    $(LOCAL_PATH)/j/alarms/Apple-iPhone4.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/Apple-iPhone4.mp3 \
+    $(LOCAL_PATH)/j/alarms/Rick-Astely-Never-Gonna-Give-U-Up.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/Rick-Astely-Never-Gonna-Give-U-Up.mp3 \
+    $(LOCAL_PATH)/j/alarms/Samsung-Over-the-Horizon-SII.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/alarms/Over-the-Horizon.mp3 \
+    $(LOCAL_PATH)/j/notifications/notif.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/notifications/notif.mp3 \
+    $(LOCAL_PATH)/j/ringtones/Nokia-Nokia-Ringtone.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/Nokia-Nokia-Ringtone.mp3 \
+    $(LOCAL_PATH)/j/ringtones/Samsung-Over-the-horizon-SIII.mp3:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/Over-the-Horizon.mp3 \
+    $(LOCAL_PATH)/ringtones/ogg/Atria.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/Atria-Holo.ogg \
