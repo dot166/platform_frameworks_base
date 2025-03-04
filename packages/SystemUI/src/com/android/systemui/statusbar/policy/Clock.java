@@ -165,7 +165,7 @@ public class Clock extends TextView implements
         if (bundle.containsKey(CURRENT_USER_ID)) {
             mCurrentUserId = bundle.getInt(CURRENT_USER_ID);
         }
-        mShowSeconds = bundle.getBoolean(SHOW_SECONDS, false);
+        mShowSeconds = bundle.getBoolean(SHOW_SECONDS, true);
         if (bundle.containsKey(VISIBILITY)) {
             super.setVisibility(bundle.getInt(VISIBILITY));
         }
@@ -276,7 +276,7 @@ public class Clock extends TextView implements
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (CLOCK_SECONDS.equals(key)) {
-            mShowSeconds = TunerService.parseIntegerSwitch(newValue, false);
+            mShowSeconds = TunerService.parseIntegerSwitch(newValue, true);
             updateShowSeconds();
         }
     }
