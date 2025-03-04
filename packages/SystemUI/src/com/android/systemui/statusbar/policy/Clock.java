@@ -178,7 +178,7 @@ public class Clock extends TextView implements
         }
         mClockVisibleByPolicy = bundle.getBoolean(VISIBLE_BY_POLICY, true);
         mClockVisibleByUser = bundle.getBoolean(VISIBLE_BY_USER, true);
-        mShowSeconds = bundle.getBoolean(SHOW_SECONDS, false);
+        mShowSeconds = bundle.getBoolean(SHOW_SECONDS, true);
         if (bundle.containsKey(VISIBILITY)) {
             super.setVisibility(bundle.getInt(VISIBILITY));
         }
@@ -344,7 +344,7 @@ public class Clock extends TextView implements
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (CLOCK_SECONDS.equals(key)) {
-            mShowSeconds = TunerService.parseIntegerSwitch(newValue, false);
+            mShowSeconds = TunerService.parseIntegerSwitch(newValue, true);
             updateShowSeconds();
         } else if (StatusBarIconController.ICON_HIDE_LIST.equals(key)) {
             setClockVisibleByUser(!StatusBarIconController.getIconHideList(getContext(), newValue)
