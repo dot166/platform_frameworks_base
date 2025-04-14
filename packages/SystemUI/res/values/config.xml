@@ -535,7 +535,7 @@
     <string name="launcher_overlayable_package" translatable="false">com.android.launcher3</string>
 
     <!-- ThemePicker package name for overlaying icons. -->
-    <string name="themepicker_overlayable_package" translatable="false">com.android.wallpaper</string>
+    <string name="themepicker_overlayable_package" translatable="false">io.github.dot166.themeengine</string>
 
     <!-- Default rounded corner curve (a Bezier). Must match (the curved path in) rounded.xml.
          Note that while rounded.xml includes the entire path (including the horizontal and vertical
@@ -970,7 +970,7 @@
 
     <!-- Package name for the app that implements the wallpaper picker. -->
     <string name="config_wallpaperPickerPackage" translatable="false">
-        com.android.wallpaper
+        io.github.dot166.themeengine
     </string>
 
     <!-- Whether the floating rotation button should be on the left/right in the device's natural
