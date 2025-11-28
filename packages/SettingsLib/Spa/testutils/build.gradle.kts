@@ -13,22 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+val Ver: String = rootProject.extra["libVersion"] as String
+val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
+val libCompileSdkMajor: Int = rootProject.extra["libCompileSdkMajor"] as Int
+val libCompileSdkMinor: Int = rootProject.extra["libCompileSdkMinor"] as Int
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.android)
 }
 
-val jetpackComposeVersion: String? by extra
+group = "io.github.dot166"
+version = Ver
 
 android {
     namespace = "com.android.settingslib.spa.testutils"
-    defaultConfig { minSdk = 23 }
+    compileSdk {
+        version = release(libCompileSdkMajor) {
+            minorApiLevel = libCompileSdkMinor
+        }
+    }
 
-    sourceSets.getByName("main") {
-        kotlin.setSrcDirs(listOf("src"))
-        manifest.srcFile("AndroidManifest.xml")
+    defaultConfig {
+        minSdk = libMinSdk
+    }
+
+    sourceSets {
+        getByName("main") {
+            kotlin.directories.addAll(listOf("src"))
+            manifest.srcFile("AndroidManifest.xml")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("17")
     }
 }
 
@@ -36,10 +69,10 @@ dependencies {
     api(project(":Spa"))
 
     api("androidx.arch.core:core-testing:2.2.0")
-    api("androidx.compose.ui:ui-test-junit4:$jetpackComposeVersion")
+    api("androidx.compose.ui:ui-test-junit4:1.9.0-beta01")
     api("androidx.lifecycle:lifecycle-runtime-testing")
     api(libs.mockito.kotlin)
     api("org.mockito:mockito-core:4.3.0") // external/mockito
     api(libs.truth)
-    debugApi("androidx.compose.ui:ui-test-manifest:$jetpackComposeVersion")
+    debugApi("androidx.compose.ui:ui-test-manifest:1.9.0-beta01")
 }
