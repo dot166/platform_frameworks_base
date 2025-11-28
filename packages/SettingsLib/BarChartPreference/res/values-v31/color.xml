@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="settings_bar_view_1_color">@color/settings_bar_view_1_color_base</color>
+    <color name="settings_bar_view_2_color">@color/settings_bar_view_2_color_base</color>
+    <color name="settings_bar_view_3_color">@color/settings_bar_view_3_color_base</color>
+    <color name="settings_bar_view_4_color">@color/settings_bar_view_4_color_base</color>
+</resources>

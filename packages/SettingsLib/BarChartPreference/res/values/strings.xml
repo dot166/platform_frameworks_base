@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="circle_view_usage_percent">"<xliff:g id="APP_NAME">%1$s</xliff:g> <xliff:g id="PERCENT">%2$d</xliff:g> per cent"</string>
+</resources>
