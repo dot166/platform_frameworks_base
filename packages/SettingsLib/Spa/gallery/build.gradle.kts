@@ -13,27 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.android)
 }
+
+val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
+val libCompileSdkMajor: Int = rootProject.extra["libCompileSdkMajor"] as Int
+val libCompileSdkMinor: Int = rootProject.extra["libCompileSdkMinor"] as Int
 
 android {
     namespace = "com.android.settingslib.spa.gallery"
+    compileSdk {
+        version = release(libCompileSdkMajor) {
+            minorApiLevel = libCompileSdkMinor
+        }
+    }
 
     defaultConfig {
         applicationId = "com.android.settingslib.spa.gallery"
         versionCode = 1
         versionName = "1.0"
-        minSdk = 23
+        minSdk = libMinSdk
     }
 
-    sourceSets.getByName("main") {
-        kotlin.setSrcDirs(listOf("src"))
-        res.setSrcDirs(listOf("res"))
-        manifest.srcFile("AndroidManifest.xml")
+    sourceSets {
+        getByName("main") {
+            kotlin.directories.addAll(listOf("src"))
+            res.directories.addAll(listOf("res"))
+            manifest.srcFile("AndroidManifest.xml")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("17")
     }
 }
 
