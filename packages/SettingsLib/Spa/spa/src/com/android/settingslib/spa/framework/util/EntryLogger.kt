@@ -57,3 +57,13 @@ fun wrapOnSwitchWithLog(onSwitch: ((checked: Boolean) -> Unit)?): ((checked: Boo
         onSwitch(it)
     }
 }
+
+@Composable
+fun wrapOnSetItemIdWithLog(onSetItemId: ((itemId: Int) -> Unit)?): ((itemId: Int) -> Unit) {
+    if (onSetItemId == null) return {} // has the same effect as returning null like the others, but spinner does not like getting a null value, so return a stub
+    val logEvent = logEntryEvent()
+    return {
+        logEvent(LogEvent.ENTRY_CLICK, bundleOf()) // use click, prevents settings from breaking
+        onSetItemId(it)
+    }
+}

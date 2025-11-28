@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,6 +90,14 @@ public class CollapsingToolbarBaseActivity extends FragmentActivity implements
         if (SetupWizardHelper.isAnySetupWizard(getIntent())) {
             findViewById(R.id.content_parent).setFitsSystemWindows(false);
         }
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                onNavigateUp();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -253,18 +262,6 @@ public class CollapsingToolbarBaseActivity extends FragmentActivity implements
             finishAfterTransition();
         }
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        // Closes the activity if there is no fragment inside the stack. Otherwise the activity will
-        // has a blank screen since there is no any fragment. onBackPressed() in Activity.java only
-        // handles popBackStackImmediate(). This will close activity to avoid a blank screen.
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            finishAfterTransition();
-        }
     }
 
     /**
