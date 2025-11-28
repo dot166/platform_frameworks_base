@@ -13,47 +13,79 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+val Ver: String = rootProject.extra["libVersion"] as String
+val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
+val libCompileSdkMajor: Int = rootProject.extra["libCompileSdkMajor"] as Int
+val libCompileSdkMinor: Int = rootProject.extra["libCompileSdkMinor"] as Int
 
 plugins {
     alias(libs.plugins.android.library)
+    `maven-publish`
+    alias(libs.plugins.maven.publish)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.android)
     jacoco
 }
 
-val jetpackComposeVersion: String? by extra
+group = "io.github.dot166"
+version = Ver
 
 android {
     namespace = "com.android.settingslib.spa"
+    compileSdk {
+        version = release(libCompileSdkMajor) {
+            minorApiLevel = libCompileSdkMinor
+        }
+    }
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        minSdk = 23
+        minSdk = libMinSdk
     }
 
-    sourceSets.getByName("main") {
-        kotlin.setSrcDirs(listOf("src"))
-        res.setSrcDirs(listOf("res"))
-        manifest.srcFile("AndroidManifest.xml")
-    }
-    sourceSets.getByName("androidTest") {
-        kotlin.setSrcDirs(listOf("../tests/src"))
-        res.setSrcDirs(listOf("../tests/res"))
-        manifest.srcFile("../tests/AndroidManifest.xml")
+    sourceSets {
+        getByName("main") {
+            kotlin.directories.addAll(listOf("src"))
+            res.directories.addAll(listOf("res"))
+            manifest.srcFile("AndroidManifest.xml")
+        }
+        getByName("androidTest") {
+            kotlin.directories.addAll(listOf("../tests/src"))
+            res.directories.addAll(listOf("../tests/res"))
+            manifest.srcFile("../tests/AndroidManifest.xml")
+        }
     }
     buildTypes {
         getByName("debug") {
             enableAndroidTestCoverage = true
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("17")
+    }
 }
 
 dependencies {
-    api(project(":SettingsLib:Color"))
+    api(project(":Color"))
     api("androidx.appcompat:appcompat:1.7.1")
     api("androidx.compose.material3:material3:1.5.0-alpha15")
     api("androidx.compose.material:material-icons-extended:1.7.8")
-    api("androidx.compose.ui:ui-tooling-preview:$jetpackComposeVersion")
+    api("androidx.compose.ui:ui-tooling-preview:1.11.2")
     api("androidx.graphics:graphics-shapes-android:1.1.0")
     api("androidx.lifecycle:lifecycle-runtime-compose")
     api("androidx.navigation:navigation-compose:2.9.7")
@@ -61,10 +93,56 @@ dependencies {
     api("com.github.PhilJay:MPAndroidChart:v3.1.0-alpha") // external/MPAndroidChart
     api("com.google.android.material:material:1.14.0-alpha02") // prebuilts/sdk/current/extras/material-design-x
     api("com.airbnb.android:lottie-compose:6.5.2") // external/lottie
-    debugApi("androidx.compose.ui:ui-tooling:$jetpackComposeVersion")
+    debugApi("androidx.compose.ui:ui-tooling:1.11.2")
 
     androidTestImplementation(project(":Spa:testutils"))
     androidTestImplementation(libs.dexmaker.mockito)
+}
+
+val nameVal = "SpaLib"
+
+mavenPublishing {
+    coordinates(group.toString(), nameVal, version.toString())
+
+    pom {
+        name = nameVal
+        description = "SettingsLib from GrapheneOS"
+        inceptionYear = "2025"
+        url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
+        licenses {
+            license {
+                name.set("The Apache Software License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id = "dot166"
+                name = "._______166"
+                url = "https://dot166.github.io"
+            }
+            developer {
+                id = "graphene"
+                name = "GrapheneOS"
+                url = "https://grapheneos.org"
+            }
+            developer {
+                id = "aosp"
+                name = "The Android Open Source Project"
+                url = "https://source.android.com"
+            }
+        }
+        scm {
+            url = "https://github.com/dot166/platform_frameworks_base"
+            connection = "scm:git:git://github.com/dot166/platform_frameworks_base.git"
+            developerConnection = "scm:git:ssh://git@github.com/dot166/platform_frameworks_base.git"
+        }
+    }
+    configure(com.vanniktech.maven.publish.AndroidSingleVariantLibrary(
+        variant = "release",
+        sourcesJar = SourcesJar.Sources(),
+        javadocJar = JavadocJar.None(),
+    ))
 }
 
 tasks.register<JacocoReport>("coverageReport") {
