@@ -15,7 +15,7 @@ android_library {
         "SettingsLintDefaults",
     ],
 
-    srcs: ["src/**/*.java"],
+    srcs: ["src/**/*.java", "src/**/*.kt"],
     resource_dirs: ["res"],
 
     static_libs: [
