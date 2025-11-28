@@ -1,54 +1,64 @@
-/*
- * Copyright 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-val Ver: String = rootProject.extra["libVersion"] as String
-val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
-val libCompileSdkMajor: Int = rootProject.extra["libCompileSdkMajor"] as Int
-val libCompileSdkMinor: Int = rootProject.extra["libCompileSdkMinor"] as Int
+val libMinSdk: Int = 31
+val libCompileSdkMajor: Int = 36
+val libCompileSdkMinor: Int = 1
+val buildTime: String = LocalDateTime.now()
+    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
+val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.$buildTime"
 
 plugins {
     alias(libs.plugins.android.library)
     `maven-publish`
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.aconfig) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.compose.compiler) apply false
+}
+
+extra.apply {
+    set("libVersion", Ver)
+    set("libMinSdk", libMinSdk)
+    set("libCompileSdkMajor", libCompileSdkMajor)
+    set("libCompileSdkMinor", libCompileSdkMinor)
 }
 
 group = "io.github.dot166"
 version = Ver
 
 android {
-    namespace = "com.android.settingslib.color"
+    namespace = "com.android.settingslib"
     compileSdk {
         version = release(libCompileSdkMajor) {
             minorApiLevel = libCompileSdkMinor
         }
     }
     defaultConfig {minSdk = libMinSdk}
-    sourceSets {
-        getByName("main") {
-            val resDirs: List<String> = listOf("res")
-            res.directories.addAll(resDirs)
-            manifest.srcFile("AndroidManifest.xml")
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
-val nameVal = "SettingsLibColor"
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("17")
+    }
+}
+
+dependencies {
+    api(project(":CollapsingToolbarBaseActivity"))
+    api(project(":Color"))
+    api(project(":DataStore"))
+    api(project(":SettingsTheme"))
+    api(project(":Spa"))
+}
+
+val nameVal = "SettingsLib"
 
 mavenPublishing {
     coordinates(group.toString(), nameVal, version.toString())
