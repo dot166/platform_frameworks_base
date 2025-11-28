@@ -18,4 +18,6 @@
 <resources>
     <dimen name="settings_bar_view_max_height">72dp</dimen>
     <dimen name="settings_bar_view_icon_size">24dp</dimen>
+    <item name="circular_label_radius_scalar" format="float" type="dimen">1.1</item>
+    <dimen name="circular_circle_stroke_width">25dp</dimen>
 </resources>
