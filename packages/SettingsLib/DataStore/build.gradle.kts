@@ -23,7 +23,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     sourceSets.getByName("main") {
-        val src: List<String> = listOf("src", "src-gradle")
+        val src: List<String> = listOf("src")
         java.srcDir(src)
         val resDirs: List<String> = listOf("res")
         res.srcDir(resDirs)
@@ -41,6 +41,7 @@ dependencies {
     api(libs.androidx.collection.ktx)
     api(libs.androidx.core.ktx)
     api(libs.guava)
+    api("com.google.code.findbugs:jsr305:3.0.2")
 }
 
 val nameVal = "SettingsLibDataStore"
