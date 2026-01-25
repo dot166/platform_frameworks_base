@@ -5530,12 +5530,14 @@ package android.app {
     method @Nullable public android.service.notification.ZenPolicy getZenPolicy();
     method public boolean isEnabled();
     method public boolean isManualInvocationAllowed();
+    method public boolean isVibrateEnabled();
     method public void setConditionId(android.net.Uri);
     method public void setConfigurationActivity(@Nullable android.content.ComponentName);
     method public void setDeviceEffects(@Nullable android.service.notification.ZenDeviceEffects);
     method public void setEnabled(boolean);
     method public void setInterruptionFilter(int);
     method public void setName(String);
+    method public void setVibrateEnabled(boolean);
     method public void setZenPolicy(@Nullable android.service.notification.ZenPolicy);
     method public void writeToParcel(android.os.Parcel, int);
     field @NonNull public static final android.os.Parcelable.Creator<android.app.AutomaticZenRule> CREATOR;
@@ -5565,6 +5567,7 @@ package android.app {
     method @NonNull public android.app.AutomaticZenRule.Builder setOwner(@Nullable android.content.ComponentName);
     method @NonNull public android.app.AutomaticZenRule.Builder setTriggerDescription(@Nullable String);
     method @NonNull public android.app.AutomaticZenRule.Builder setType(int);
+    method @NonNull public android.app.AutomaticZenRule.Builder setVibrateEnabled(boolean);
     method @NonNull public android.app.AutomaticZenRule.Builder setZenPolicy(@Nullable android.service.notification.ZenPolicy);
   }
 

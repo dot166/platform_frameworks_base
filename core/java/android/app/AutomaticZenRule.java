@@ -126,6 +126,7 @@ public final class AutomaticZenRule implements Parcelable {
      * @hide
      */
     public static final int FIELD_ICON = 1 << 2;
+    private static final String RULE_VIBRATE_ON_ENABLE = "vibrateOnEnable";
 
     private boolean enabled;
     private String name;
@@ -141,6 +142,10 @@ public final class AutomaticZenRule implements Parcelable {
     private int mIconResId;
     private String mTriggerDescription;
     private boolean mAllowManualInvocation;
+    /**
+     * value for if the device should swap to vibrate mode when this mode is enabled
+     */
+    private boolean mVibrateEnabled = false;
 
     /**
      * The maximum string length for any string contained in this automatic zen rule. This pertains
@@ -231,6 +236,7 @@ public final class AutomaticZenRule implements Parcelable {
         mIconResId = source.readInt();
         mTriggerDescription = getTrimmedString(source.readString8(), MAX_DESC_LENGTH);
         mType = source.readInt();
+        mVibrateEnabled = source.readBoolean();
     }
 
     /**
@@ -296,6 +302,10 @@ public final class AutomaticZenRule implements Parcelable {
      */
     public long getCreationTime() {
       return creationTime;
+    }
+
+    public boolean isVibrateEnabled() {
+        return mVibrateEnabled;
     }
 
     /**
@@ -405,6 +415,10 @@ public final class AutomaticZenRule implements Parcelable {
      */
     public String getPackageName() {
         return mPkg;
+    }
+
+    public void setVibrateEnabled(boolean vibrateEnabled) {
+        mVibrateEnabled = vibrateEnabled;
     }
 
     /**
@@ -517,6 +531,7 @@ public final class AutomaticZenRule implements Parcelable {
         dest.writeInt(mIconResId);
         dest.writeString8(mTriggerDescription);
         dest.writeInt(mType);
+        dest.writeBoolean(mVibrateEnabled);
     }
 
     @Override
@@ -537,6 +552,7 @@ public final class AutomaticZenRule implements Parcelable {
                 .append(",allowManualInvocation=").append(mAllowManualInvocation)
                 .append(",iconResId=").append(mIconResId)
                 .append(",triggerDescription=").append(mTriggerDescription)
+                .append(",vibrateEnabled=").append(mVibrateEnabled)
                 .append(']')
                 .toString();
     }
@@ -574,13 +590,14 @@ public final class AutomaticZenRule implements Parcelable {
                 && other.mAllowManualInvocation == mAllowManualInvocation
                 && other.mIconResId == mIconResId
                 && Objects.equals(other.mTriggerDescription, mTriggerDescription)
+                && other.mVibrateEnabled == mVibrateEnabled
                 && other.mType == mType;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(enabled, name, interruptionFilter, conditionId, owner,
-                configurationActivity, mZenPolicy, mDeviceEffects, creationTime,
+                configurationActivity, mZenPolicy, mDeviceEffects, creationTime, mVibrateEnabled,
                 mPkg, mAllowManualInvocation, mIconResId, mTriggerDescription, mType);
     }
 
@@ -646,6 +663,7 @@ public final class AutomaticZenRule implements Parcelable {
         private boolean mAllowManualInvocation;
         private long mCreationTime;
         private String mPkg;
+        private boolean mVibrateEnabled = false;
 
         public Builder(@NonNull AutomaticZenRule rule) {
             mName = rule.getName();
@@ -662,6 +680,7 @@ public final class AutomaticZenRule implements Parcelable {
             mAllowManualInvocation = rule.isManualInvocationAllowed();
             mCreationTime = rule.getCreationTime();
             mPkg = rule.getPackageName();
+            mVibrateEnabled = rule.isVibrateEnabled();
         }
 
         public Builder(@NonNull String name, @NonNull Uri conditionId) {
@@ -816,6 +835,11 @@ public final class AutomaticZenRule implements Parcelable {
             return this;
         }
 
+        public @NonNull Builder setVibrateEnabled(boolean vibrate) {
+            mVibrateEnabled = vibrate;
+            return this;
+        }
+
         public @NonNull AutomaticZenRule build() {
             AutomaticZenRule rule = new AutomaticZenRule(mName, mOwner, mConfigurationActivity,
                     mConditionId, mPolicy, mInterruptionFilter, mEnabled);
@@ -826,6 +850,7 @@ public final class AutomaticZenRule implements Parcelable {
             rule.mIconResId = mIconResId;
             rule.mAllowManualInvocation = mAllowManualInvocation;
             rule.setPackageName(mPkg);
+            rule.setVibrateEnabled(mVibrateEnabled);
 
             return rule;
         }

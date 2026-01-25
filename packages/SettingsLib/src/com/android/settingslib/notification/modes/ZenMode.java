@@ -340,6 +340,14 @@ public class ZenMode implements Parcelable {
         mRule.setInterruptionFilter(filter);
     }
 
+    public boolean isVibrateEnabled() {
+        return mRule.isVibrateEnabled();
+    }
+
+    public void setVibrateEnabled(boolean vibrateEnabled) {
+        mRule.setVibrateEnabled(vibrateEnabled);
+    }
+
     @NonNull
     public ZenPolicy getPolicy() {
         switch (mRule.getInterruptionFilter()) {

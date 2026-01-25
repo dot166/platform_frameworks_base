@@ -311,6 +311,7 @@ public class ZenModeConfig implements Parcelable {
     private static final String RULE_ATT_LAST_MANUAL_ACTIVATION = "lastManualActivation";
     private static final String RULE_ATT_LAST_DEACTIVATION = "lastDeactivation";
     private static final String RULE_ATT_LAST_MANUAL_DEACTIVATION = "lastManualDeactivation";
+    private static final String RULE_VIBRATE_ON_ENABLE = "vibrateOnEnable";
 
     private static final String DEVICE_EFFECT_DISPLAY_GRAYSCALE = "zdeDisplayGrayscale";
     private static final String DEVICE_EFFECT_SUPPRESS_AMBIENT_DISPLAY =
@@ -934,6 +935,7 @@ public class ZenModeConfig implements Parcelable {
             rt.lastManualDeactivation = safeInstant(parser, RULE_ATT_LAST_MANUAL_DEACTIVATION,
                     null);
         }
+        rt.vibrateOnEnable = safeBoolean(parser, RULE_VIBRATE_ON_ENABLE, false);
 
         return rt;
     }
@@ -999,6 +1001,7 @@ public class ZenModeConfig implements Parcelable {
             writeXmlAttributeInstant(out, RULE_ATT_LAST_MANUAL_DEACTIVATION,
                     rule.lastManualDeactivation);
         }
+        out.attributeBoolean(null, RULE_VIBRATE_ON_ENABLE, rule.vibrateOnEnable);
     }
 
     private static void writeXmlAttributeInstant(TypedXmlSerializer out, String att,
@@ -2232,6 +2235,11 @@ public class ZenModeConfig implements Parcelable {
         @Nullable
         public Instant lastManualDeactivation;
 
+        /**
+         * value for if the device should swap to vibrate mode when this mode is enabled
+         */
+        public boolean vibrateOnEnable = false;
+
         public ZenRule() { }
 
         public ZenRule(Parcel source) {
@@ -2281,6 +2289,7 @@ public class ZenModeConfig implements Parcelable {
                     lastManualDeactivation = Instant.ofEpochMilli(source.readLong());
                 }
             }
+            vibrateOnEnable = source.readBoolean();
         }
 
         /**
@@ -2352,6 +2361,7 @@ public class ZenModeConfig implements Parcelable {
                 writeInstantToParcel(dest, lastDeactivation);
                 writeInstantToParcel(dest, lastManualDeactivation);
             }
+            dest.writeBoolean(vibrateOnEnable);
         }
 
         private static void writeInstantToParcel(Parcel dest, @Nullable Instant instant) {
@@ -2411,6 +2421,7 @@ public class ZenModeConfig implements Parcelable {
                 sb.append(",lastDeactivation=").append(lastDeactivation);
                 sb.append(",lastManualDeactivation=").append(lastManualDeactivation);
             }
+            sb.append(",vibrateOnEnable=").append(vibrateOnEnable);
 
             return sb.append(']').toString();
         }
@@ -2480,6 +2491,7 @@ public class ZenModeConfig implements Parcelable {
                     && other.disabledOrigin == disabledOrigin
                     && other.legacySuppressedEffects == legacySuppressedEffects
                     && other.conditionOverride == conditionOverride
+                    && other.vibrateOnEnable == vibrateOnEnable
                     && Objects.equals(other.lastActivation, lastActivation);
 
             if (Flags.modesUiTileReactivatesLast()) {
@@ -2502,7 +2514,7 @@ public class ZenModeConfig implements Parcelable {
                         zenPolicyUserModifiedFields, zenDeviceEffectsUserModifiedFields,
                         deletionInstant, disabledOrigin, legacySuppressedEffects,
                         conditionOverride, lastActivation, lastManualActivation,
-                        lastDeactivation, lastManualDeactivation);
+                        lastDeactivation, lastManualDeactivation, vibrateOnEnable);
             } else {
                 return Objects.hash(enabled, name, zenMode, conditionId, condition,
                         component, configurationActivity, pkg, id, enabler, zenPolicy,
@@ -2510,7 +2522,7 @@ public class ZenModeConfig implements Parcelable {
                         triggerDescription, type, userModifiedFields,
                         zenPolicyUserModifiedFields, zenDeviceEffectsUserModifiedFields,
                         deletionInstant, disabledOrigin, legacySuppressedEffects,
-                        conditionOverride, lastActivation);
+                        conditionOverride, lastActivation, vibrateOnEnable);
             }
         }
 

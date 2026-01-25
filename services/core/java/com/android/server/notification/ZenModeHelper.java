@@ -1384,6 +1384,11 @@ public class ZenModeHelper {
         modified |= updateZenDeviceEffects(rule, azr.getDeviceEffects(),
                 origin == ORIGIN_APP, updateBitmask);
 
+        if (rule.vibrateOnEnable != azr.isVibrateEnabled()) {
+            rule.vibrateOnEnable = azr.isVibrateEnabled();
+            modified = true;
+        }
+
         return modified;
     }
 
@@ -1610,6 +1615,7 @@ public class ZenModeHelper {
                 .setOwner(rule.component)
                 .setConfigurationActivity(rule.configurationActivity)
                 .setTriggerDescription(rule.triggerDescription)
+                .setVibrateEnabled(rule.vibrateOnEnable)
                 .build();
     }
 
@@ -2481,25 +2487,48 @@ public class ZenModeHelper {
         }
     }
 
+    private ZenModeConfig.ZenRule getActiveRule() {
+        if (mConfig == null) return null;
+        if (mConfig.isManualActive()) return mConfig.manualRule;
+        ZenModeConfig.ZenRule zen = null;
+        for (ZenRule automaticRule : mConfig.automaticRules.values()) {
+            if (automaticRule.isActive()) {
+                zen = automaticRule;
+            }
+        }
+        return zen;
+    }
+
     @VisibleForTesting
     protected void applyZenToRingerMode() {
         if (mAudioManager == null) return;
         // force the ringer mode into compliance
         final int ringerModeInternal = mAudioManager.getRingerModeInternal();
         int newRingerModeInternal = ringerModeInternal;
+        ZenModeConfig.ZenRule activeRule = getActiveRule();
+        final boolean vibrateOnEnable = activeRule != null && activeRule.vibrateOnEnable;
         switch (mZenMode) {
             case Global.ZEN_MODE_NO_INTERRUPTIONS:
             case Global.ZEN_MODE_ALARMS:
-                if (ringerModeInternal != AudioManager.RINGER_MODE_SILENT) {
+                if (ringerModeInternal != AudioManager.RINGER_MODE_SILENT
+                    && ringerModeInternal != AudioManager.RINGER_MODE_VIBRATE) {
                     setPreviousRingerModeSetting(ringerModeInternal);
-                    newRingerModeInternal = AudioManager.RINGER_MODE_SILENT;
+                    newRingerModeInternal = vibrateOnEnable
+                        ? AudioManager.RINGER_MODE_VIBRATE
+                        : AudioManager.RINGER_MODE_SILENT;
                 }
                 break;
             case Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS:
-                // do not apply zen to ringer, streams zen muted in AudioService
+                if (vibrateOnEnable && ringerModeInternal != AudioManager.RINGER_MODE_VIBRATE) {
+                    setPreviousRingerModeSetting(ringerModeInternal);
+                    newRingerModeInternal = AudioManager.RINGER_MODE_VIBRATE;
+                } else {
+                    // do not apply zen to ringer, streams zen muted in AudioService
+                }
                 break;
             case Global.ZEN_MODE_OFF:
-                if (ringerModeInternal == AudioManager.RINGER_MODE_SILENT) {
+                if (ringerModeInternal == AudioManager.RINGER_MODE_SILENT
+                    || ringerModeInternal == AudioManager.RINGER_MODE_VIBRATE) {
                     newRingerModeInternal = getPreviousRingerModeSetting();
                     setPreviousRingerModeSetting(null);
                 }
