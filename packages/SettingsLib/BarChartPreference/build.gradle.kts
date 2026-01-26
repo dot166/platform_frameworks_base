@@ -6,7 +6,6 @@ val libCompileSdk: Int = rootProject.extra["libCompileSdk"] as Int
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     `maven-publish`
     alias(libs.plugins.maven.publish)
 }
@@ -24,9 +23,10 @@ android {
     }
     sourceSets.getByName("main") {
         val src: List<String> = listOf("src")
-        java.srcDir(src)
+        java.directories.addAll(src)
+        kotlin.directories.addAll(src)
         val resDirs: List<String> = listOf("res")
-        res.srcDir(resDirs)
+        res.directories.addAll(resDirs)
         manifest.srcFile("AndroidManifest.xml")
     }
 }
