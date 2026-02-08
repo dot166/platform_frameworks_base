@@ -2527,11 +2527,8 @@ public class ZenModeHelper {
                 }
                 break;
             case Global.ZEN_MODE_OFF:
-                if (ringerModeInternal == AudioManager.RINGER_MODE_SILENT
-                    || ringerModeInternal == AudioManager.RINGER_MODE_VIBRATE) {
-                    newRingerModeInternal = getPreviousRingerModeSetting();
-                    setPreviousRingerModeSetting(null);
-                }
+                newRingerModeInternal = AudioManager.RINGER_MODE_NORMAL;
+                setPreviousRingerModeSetting(null);
                 break;
         }
         if (newRingerModeInternal != -1) {
