@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -155,6 +156,10 @@ public class SettingsSpinnerPreference2 extends Preference
         if (!TextUtils.isEmpty(mContentDescription)) {
             spinner.setContentDescription(mContentDescription);
         }
+        final TextView title = (TextView) holder.findViewById(android.R.id.title);
+        title.setSelected(true);
+        final TextView summary = (TextView) holder.findViewById(android.R.id.summary);
+        summary.setSelected(true);
     }
 
     private final AdapterView.OnItemSelectedListener mOnSelectedListener =
