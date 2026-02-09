@@ -31,12 +31,67 @@
 
     <include layout="@layout/settingslib_expressive_preference_icon_frame"/>
 
-    <include layout="@layout/settingslib_expressive_preference_text_frame"/>
+    <RelativeLayout
+        android:filterTouchesWhenObscured="false"
+        android:layout_width="@dimen/settingslib_expressive_space_none"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingVertical="@dimen/settingslib_expressive_space_small1"
+        android:paddingStart="@dimen/settingslib_expressive_space_none"
+        android:paddingEnd="@dimen/settingslib_expressive_space_none">
 
-    <include
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textAlignment="viewStart"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:selectAllOnFocus="true" />
+
+        <TextView
+            android:id="@android:id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:layout_alignStart="@android:id/title"
+            android:layout_gravity="start"
+            android:textAlignment="viewStart"
+            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+            android:textColor="?android:attr/textColorSecondary"
+            android:maxLines="10"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:selectAllOnFocus="true" />
+    </RelativeLayout>
+
+    <com.android.settingslib.widget.RestrictedRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="end|center_vertical"
+        android:maxWidth="180dp"
         android:minWidth="@dimen/settingslib_expressive_space_medium4"
-        layout="@layout/settings_spinner_preference"/>
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+    </com.android.settingslib.widget.RestrictedRelativeLayout>
 </LinearLayout>
