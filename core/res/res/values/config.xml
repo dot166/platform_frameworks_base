@@ -2838,7 +2838,7 @@
          (by default) -->
     <bool name="config_dreamsActivatedOnPosturedByDefault">false</bool>
     <!-- ComponentName of the default dream (Settings.Secure.DEFAULT_SCREENSAVER_COMPONENT) -->
-    <string name="config_dreamsDefaultComponent" translatable="false">com.android.deskclock/com.android.deskclock.Screensaver</string>
+    <string name="config_dreamsDefaultComponent" translatable="false">io.github.dot166.nightstand/io.github.dot166.nightstand.NightStand</string>
     <!-- ComponentNames of the dreams that we should hide -->
     <string-array name="config_disabledDreamComponents" translatable="false">
     </string-array>
