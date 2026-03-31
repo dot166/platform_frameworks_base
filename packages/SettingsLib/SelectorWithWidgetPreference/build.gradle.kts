@@ -51,7 +51,7 @@ mavenPublishing {
         name = nameVal
         description = "SettingsLib from GrapheneOS"
         inceptionYear = "2025"
-        url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr1/packages/SettingsLib"
+        url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
         licenses {
             license {
                 name.set("Apache License")
