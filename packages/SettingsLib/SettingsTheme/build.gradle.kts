@@ -22,13 +22,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    sourceSets.getByName("main") {
-        val src: List<String> = listOf("src")
-        java.directories.addAll(src)
-        kotlin.directories.addAll(src)
-        val resDirs: List<String> = listOf("res")
-        res.directories.addAll(resDirs)
-        manifest.srcFile("AndroidManifest.xml")
+    sourceSets {
+        getByName("main") {
+            val src: List<String> = listOf("src", "src-gradle")
+            java.directories.addAll(src)
+            kotlin.directories.addAll(src)
+            val resDirs: List<String> = listOf("res")
+            res.directories.addAll(resDirs)
+            manifest.srcFile("AndroidManifest.xml")
+        }
     }
 }
 
