@@ -86,9 +86,4 @@ mavenPublishing {
             developerConnection = "scm:git:ssh://git@github.com/dot166/platform_frameworks_base.git"
         }
     }
-    configure(com.vanniktech.maven.publish.AndroidSingleVariantLibrary(
-        variant = "release",
-        sourcesJar = SourcesJar.Sources(),
-        javadocJar = JavadocJar.None(),
-    ))
 }
