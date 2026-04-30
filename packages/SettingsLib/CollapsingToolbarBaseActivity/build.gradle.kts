@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 val Ver: String = rootProject.extra["libVersion"] as String
@@ -87,7 +89,7 @@ mavenPublishing {
     }
     configure(com.vanniktech.maven.publish.AndroidSingleVariantLibrary(
         variant = "release",
-        sourcesJar = true,
-        publishJavadocJar = false,
+        sourcesJar = SourcesJar.Sources(),
+        javadocJar = JavadocJar.None(),
     ))
 }
