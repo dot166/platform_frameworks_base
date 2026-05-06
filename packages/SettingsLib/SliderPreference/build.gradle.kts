@@ -42,8 +42,8 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:Preference"))
-    api(project(":settingslib:SettingsTheme"))
+    api(project(":Preference"))
+    api(project(":SettingsTheme"))
     api(libs.androidx.preference)
 }
 

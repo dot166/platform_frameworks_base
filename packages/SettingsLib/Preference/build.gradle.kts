@@ -42,9 +42,9 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:DataStore"))
-    api(project(":settingslib:Metadata"))
-    api(project(":settingslib:SettingsTheme"))
+    api(project(":DataStore"))
+    api(project(":Metadata"))
+    api(project(":SettingsTheme"))
     api(libs.androidx.preference)
 }
 

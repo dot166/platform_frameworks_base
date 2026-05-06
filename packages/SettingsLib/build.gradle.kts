@@ -1,15 +1,26 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-val Ver: String = rootProject.extra["libVersion"] as String
-val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
-val libCompileSdk: Int = rootProject.extra["libCompileSdk"] as Int
+val libMinSdk: Int = 31
+val libCompileSdk: Int = 36
+val buildTime: String = LocalDateTime.now()
+    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
+val Ver: String = "1$libCompileSdk.1.$buildTime"
 
 plugins {
     alias(libs.plugins.android.library)
     `maven-publish`
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.aconfig) apply false
+}
+
+extra.apply {
+    set("libVersion", Ver)
+    set("libMinSdk", libMinSdk)
+    set("libCompileSdk", libCompileSdk)
 }
 
 group = "io.github.dot166"
@@ -32,16 +43,16 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:BannerMessagePreference"))
-    api(project(":settingslib:BarChartPreference"))
-    api(project(":settingslib:ButtonPreference"))
-    api(project(":settingslib:CardPreference"))
-    api(project(":settingslib:Category"))
-    api(project(":settingslib:CollapsingToolbarBaseActivity"))
-    api(project(":settingslib:Preference"))
-    api(project(":settingslib:SelectorWithWidgetPreference"))
-    api(project(":settingslib:SettingsSpinner"))
-    api(project(":settingslib:SliderPreference"))
+    api(project(":BannerMessagePreference"))
+    api(project(":BarChartPreference"))
+    api(project(":ButtonPreference"))
+    api(project(":CardPreference"))
+    api(project(":Category"))
+    api(project(":CollapsingToolbarBaseActivity"))
+    api(project(":Preference"))
+    api(project(":SelectorWithWidgetPreference"))
+    api(project(":SettingsSpinner"))
+    api(project(":SliderPreference"))
 }
 
 val nameVal = "SettingsLib"
