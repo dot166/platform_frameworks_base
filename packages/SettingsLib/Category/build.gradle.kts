@@ -42,9 +42,9 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:Metadata"))
-    api(project(":settingslib:Preference"))
-    api(project(":settingslib:SettingsTheme"))
+    api(project(":Metadata"))
+    api(project(":Preference"))
+    api(project(":SettingsTheme"))
 }
 
 val nameVal = "SettingsLibCategory"

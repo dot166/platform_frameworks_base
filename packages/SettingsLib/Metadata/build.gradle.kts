@@ -42,7 +42,7 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:DataStore"))
+    api(project(":DataStore"))
     api(libs.androidx.fragment)
 }
 

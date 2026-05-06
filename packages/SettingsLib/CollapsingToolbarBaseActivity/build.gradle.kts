@@ -42,8 +42,8 @@ kotlin {
 }
 
 dependencies {
-    api(project(":settingslib:SettingsTheme"))
-    api(project(":settingslib:SettingsTransition"))
+    api(project(":SettingsTheme"))
+    api(project(":SettingsTransition"))
     api(libs.androidx.core.ktx)
     api(libs.material)
 }
