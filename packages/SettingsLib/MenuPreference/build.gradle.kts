@@ -1,38 +1,37 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
-val libMinSdk: Int = 31
-val libCompileSdk: Int = 36
-val buildTime: String = LocalDateTime.now()
-    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
-val Ver: String = "1$libCompileSdk.1.$buildTime"
+val Ver: String = rootProject.extra["libVersion"] as String
+val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
+val libCompileSdk: Int = rootProject.extra["libCompileSdk"] as Int
 
 plugins {
     alias(libs.plugins.android.library)
     `maven-publish`
     alias(libs.plugins.maven.publish)
-    alias(libs.plugins.aconfig) apply false
-}
-
-extra.apply {
-    set("libVersion", Ver)
-    set("libMinSdk", libMinSdk)
-    set("libCompileSdk", libCompileSdk)
 }
 
 group = "io.github.dot166"
 version = Ver
 
 android {
-    namespace = "com.android.settingslib"
+    namespace = "com.android.settingslib.widget.preference.menu"
     compileSdk = libCompileSdk
     defaultConfig {minSdk = libMinSdk}
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    sourceSets {
+        getByName("main") {
+            val src: List<String> = listOf("src", "src-gradle")
+            java.directories.addAll(src)
+            kotlin.directories.addAll(src)
+            val resDirs: List<String> = listOf("res")
+            res.directories.addAll(resDirs)
+            manifest.srcFile("AndroidManifest.xml")
+        }
     }
 }
 
@@ -43,20 +42,11 @@ kotlin {
 }
 
 dependencies {
-    api(project(":BannerMessagePreference"))
-    api(project(":BarChartPreference"))
-    api(project(":ButtonPreference"))
-    api(project(":CardPreference"))
-    api(project(":Category"))
-    api(project(":CollapsingToolbarBaseActivity"))
-    api(project(":MenuPreference"))
-    api(project(":Preference"))
-    api(project(":SelectorWithWidgetPreference"))
-    api(project(":SettingsSpinner"))
-    api(project(":SliderPreference"))
+    api(project(":SettingsTheme"))
+    api(libs.androidx.preference)
 }
 
-val nameVal = "SettingsLib"
+val nameVal = "SettingsLibMenuPreference"
 
 mavenPublishing {
     coordinates(group.toString(), nameVal, version.toString())
@@ -64,7 +54,7 @@ mavenPublishing {
     pom {
         name = nameVal
         description = "SettingsLib from GrapheneOS"
-        inceptionYear = "2025"
+        inceptionYear = "2026"
         url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
         licenses {
             license {
