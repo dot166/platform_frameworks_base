@@ -5,10 +5,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 val libMinSdk: Int = 31
-val libCompileSdk: Int = 36
+val libCompileSdkMajor: Int = 36
+val libCompileSdkMinor: Int = 1
 val buildTime: String = LocalDateTime.now()
     .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
-val Ver: String = "1$libCompileSdk.1.$buildTime"
+val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.$buildTime"
 
 plugins {
     alias(libs.plugins.android.library)
@@ -20,7 +21,8 @@ plugins {
 extra.apply {
     set("libVersion", Ver)
     set("libMinSdk", libMinSdk)
-    set("libCompileSdk", libCompileSdk)
+    set("libCompileSdkMajor", libCompileSdkMajor)
+    set("libCompileSdkMinor", libCompileSdkMinor)
 }
 
 group = "io.github.dot166"
@@ -28,7 +30,11 @@ version = Ver
 
 android {
     namespace = "com.android.settingslib"
-    compileSdk = libCompileSdk
+    compileSdk {
+        version = release(libCompileSdkMajor) {
+            minorApiLevel = libCompileSdkMinor
+        }
+    }
     defaultConfig {minSdk = libMinSdk}
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -68,8 +74,8 @@ mavenPublishing {
         url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
         licenses {
             license {
-                name.set("Apache License")
-                url.set("https://choosealicense.com/licenses/apache-2.0/")
+                name.set("The Apache Software License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
         developers {
