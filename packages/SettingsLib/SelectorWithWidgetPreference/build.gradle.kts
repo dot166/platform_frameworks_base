@@ -4,7 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 val Ver: String = rootProject.extra["libVersion"] as String
 val libMinSdk: Int = rootProject.extra["libMinSdk"] as Int
-val libCompileSdk: Int = rootProject.extra["libCompileSdk"] as Int
+val libCompileSdkMajor: Int = rootProject.extra["libCompileSdkMajor"] as Int
+val libCompileSdkMinor: Int = rootProject.extra["libCompileSdkMinor"] as Int
 
 plugins {
     alias(libs.plugins.android.library)
@@ -17,7 +18,11 @@ version = Ver
 
 android {
     namespace = "com.android.settingslib.widget.preference.selector"
-    compileSdk = libCompileSdk
+    compileSdk {
+        version = release(libCompileSdkMajor) {
+            minorApiLevel = libCompileSdkMinor
+        }
+    }
     defaultConfig {minSdk = libMinSdk}
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -58,8 +63,8 @@ mavenPublishing {
         url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
         licenses {
             license {
-                name.set("Apache License")
-                url.set("https://choosealicense.com/licenses/apache-2.0/")
+                name.set("The Apache Software License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
         developers {
