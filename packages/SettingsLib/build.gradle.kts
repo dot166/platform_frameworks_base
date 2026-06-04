@@ -16,6 +16,8 @@ plugins {
     `maven-publish`
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.aconfig) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 extra.apply {
@@ -60,6 +62,7 @@ dependencies {
     api(project(":SelectorWithWidgetPreference"))
     api(project(":SettingsSpinner"))
     api(project(":SliderPreference"))
+    api(project(":Spa"))
 }
 
 val nameVal = "SettingsLib"
