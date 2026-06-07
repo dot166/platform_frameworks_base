@@ -20,7 +20,7 @@ window = "1.5.1"
 dexmaker-mockito = "2.28.6"
 mockito-kotlin = "6.3.0" # external/mockito-kotlin/METADATA
 truth = "1.4.5" # external/truth
-composeLifecycleRuntime = "2.9.0"
+composeLifecycleRuntime = "2.10.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
