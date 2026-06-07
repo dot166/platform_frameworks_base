@@ -20,22 +20,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SettingsLib"
-include(":BannerMessagePreference")
-include(":BarChartPreference")
-include(":ButtonPreference")
-include(":CardPreference")
-include(":Category")
 include(":CollapsingToolbarBaseActivity")
 include(":Color")
 include(":DataStore")
-include(":MenuPreference")
-include(":Metadata")
-include(":Preference")
-include(":SelectorWithWidgetPreference")
-include(":SettingsSpinner")
 include(":SettingsTheme")
-include(":SettingsTransition")
-include(":SliderPreference")
 include(":Spa")
 project(":Spa").projectDir = File("Spa/spa")
 include(":Spa:gallery")

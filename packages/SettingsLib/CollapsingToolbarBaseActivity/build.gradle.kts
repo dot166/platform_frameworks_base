@@ -48,7 +48,6 @@ kotlin {
 
 dependencies {
     api(project(":SettingsTheme"))
-    api(project(":SettingsTransition"))
     api(libs.androidx.core.ktx)
     api(libs.material)
 }
