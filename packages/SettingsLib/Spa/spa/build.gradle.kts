@@ -99,7 +99,7 @@ dependencies {
     androidTestImplementation(libs.dexmaker.mockito)
 }
 
-val nameVal = "SettingsLibSpa"
+val nameVal = "SpaLib"
 
 mavenPublishing {
     coordinates(group.toString(), nameVal, version.toString())
