@@ -14,7 +14,9 @@ import com.android.settingslib.spa.widget.ui.SpinnerOption
  */
 interface SpinnerPreferenceModel {
     val onSetItemId: ((Int) -> Unit)?
+        get() = null
     val selectedItem: Int?
+        get() = null
     val list: List<SpinnerOption>
 
     /**
