@@ -8,3 +8,5 @@ but, that makes no sense to anyone else, please see [this section in the jLib RE
 so, starting with SettingsLib 136, it will sort of use [semantic versioning](https://semver.org/),
 its major version will be the AOSP SDK version that its sources match add 100 (because maven is doing its job, example, Android 16 - 36 - 136), the minor version will match AOSPs minor version,
 and the patch version will be the build time in the following format ```yyyyMMddHHmm```.
+
+SettingsLib 37 and newer will only be published when i publish stable updates to my GrapheneOS fork, due to limits being introduced by maven central on the 11th August 2026
