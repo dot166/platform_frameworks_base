@@ -58,7 +58,7 @@ jobs:
         ./gradlew assembleRelease
 
     - name: Publish to Maven Central
-      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/16-qpr2' && github.repository == 'dot166/platform_frameworks_base' && needs.filter-paths.outputs.should_publish == 'true' }}
+      if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/17' && github.repository == 'dot166/platform_frameworks_base' && needs.filter-paths.outputs.should_publish == 'true' }}
       run: |
         cd packages/SettingsLib
         ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
