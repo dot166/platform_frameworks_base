@@ -5,8 +5,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 val libMinSdk: Int = 31
-val libCompileSdkMajor: Int = 36
-val libCompileSdkMinor: Int = 1
+val libCompileSdkMajor: Int = 37
+val libCompileSdkMinor: Int = 0
 val buildTime: String = LocalDateTime.now()
     .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
 val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.$buildTime"
@@ -67,7 +67,7 @@ mavenPublishing {
         name = nameVal
         description = "SettingsLib from GrapheneOS"
         inceptionYear = "2025"
-        url = "https://github.com/dot166/platform_frameworks_base/tree/16-qpr2/packages/SettingsLib"
+        url = "https://github.com/dot166/platform_frameworks_base/tree/17/packages/SettingsLib"
         licenses {
             license {
                 name.set("The Apache Software License, Version 2.0")
