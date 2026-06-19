@@ -19,7 +19,6 @@ package com.android.settingslib.spa.framework.util
 import android.os.Bundle
 import androidx.compose.runtime.Composable
 import androidx.core.os.bundleOf
-import com.android.settingslib.spa.framework.common.LOG_DATA_SET_STATUS
 import com.android.settingslib.spa.framework.common.LOG_DATA_SWITCH_STATUS
 import com.android.settingslib.spa.framework.common.LocalEntryDataProvider
 import com.android.settingslib.spa.framework.common.LogCategory
@@ -64,7 +63,7 @@ fun wrapOnSetItemIdWithLog(onSetItemId: ((itemId: Int) -> Unit)?): ((itemId: Int
     if (onSetItemId == null) return {} // has the same effect as returning null like the others, but spinner does not like getting a null value, so return a stub
     val logEvent = logEntryEvent()
     return {
-        logEvent(LogEvent.ENTRY_SET, bundleOf(LOG_DATA_SET_STATUS to it))
+        logEvent(LogEvent.ENTRY_CLICK, bundleOf()) // use click, prevents settings from breaking
         onSetItemId(it)
     }
 }

@@ -39,12 +39,10 @@ enum class LogEvent {
     // Entry related events.
     ENTRY_CLICK,
     ENTRY_SWITCH,
-    ENTRY_SET,
 }
 
 internal const val LOG_DATA_DISPLAY_NAME = "name"
 internal const val LOG_DATA_SWITCH_STATUS = "switch"
-internal const val LOG_DATA_SET_STATUS = "setItem"
 
 const val LOG_DATA_SESSION_NAME = "session"
 const val LOG_DATA_METRICS_CATEGORY = "metricsCategory"
