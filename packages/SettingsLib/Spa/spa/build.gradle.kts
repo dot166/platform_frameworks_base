@@ -82,18 +82,18 @@ kotlin {
 
 dependencies {
     api(project(":Color"))
-    api("androidx.appcompat:appcompat:1.7.1")
-    api("androidx.compose.material3:material3:1.5.0-alpha15")
-    api("androidx.compose.material:material-icons-extended:1.7.8")
-    api("androidx.compose.ui:ui-tooling-preview:1.11.2")
-    api("androidx.graphics:graphics-shapes-android:1.1.0")
-    api("androidx.lifecycle:lifecycle-runtime-compose:2.9.0")
-    api("androidx.navigation:navigation-compose:2.9.7")
-    api("androidx.window:window:1.5.1")
-    api("com.github.PhilJay:MPAndroidChart:v3.1.0-alpha") // external/MPAndroidChart
-    api("com.google.android.material:material:1.14.0-alpha02") // prebuilts/sdk/current/extras/material-design-x
-    api("com.airbnb.android:lottie-compose:6.5.2") // external/lottie
-    debugApi("androidx.compose.ui:ui-tooling:1.11.2")
+    api(libs.androidx.appcompat)
+    api(libs.androidx.material3)
+    api(libs.androidx.material.icons.extended)
+    api(libs.androidx.ui.tooling.preview)
+    api(libs.androidx.graphics.shapes.android)
+    api(libs.androidx.lifecycle.runtime.compose)
+    api(libs.androidx.navigation.compose)
+    api(libs.androidx.window)
+    api(libs.mpandroidchart) // external/MPAndroidChart
+    api(libs.material) // prebuilts/sdk/current/extras/material-design-x
+    api(libs.lottie.compose) // external/lottie
+    debugApi(libs.androidx.ui.tooling)
 
     androidTestImplementation(project(":Spa:testutils"))
     androidTestImplementation(libs.dexmaker.mockito)

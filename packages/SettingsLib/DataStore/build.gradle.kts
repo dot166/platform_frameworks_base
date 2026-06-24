@@ -50,7 +50,7 @@ dependencies {
     api(libs.androidx.collection.ktx)
     api(libs.androidx.core.ktx)
     api(libs.guava)
-    api("com.google.code.findbugs:jsr305:3.0.2")
+    api(libs.jsr305)
 }
 
 val nameVal = "SettingsLibDataStore"

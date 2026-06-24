@@ -68,11 +68,11 @@ kotlin {
 dependencies {
     api(project(":Spa"))
 
-    api("androidx.arch.core:core-testing:2.2.0")
-    api("androidx.compose.ui:ui-test-junit4:1.9.0-beta01")
-    api("androidx.lifecycle:lifecycle-runtime-testing")
+    api(libs.androidx.core.testing)
+    api(libs.androidx.ui.test.junit4)
+    api(libs.androidx.lifecycle.runtime.testing)
     api(libs.mockito.kotlin)
-    api("org.mockito:mockito-core:4.3.0") // external/mockito
+    api(libs.mockito.core) // external/mockito
     api(libs.truth)
-    debugApi("androidx.compose.ui:ui-test-manifest:1.9.0-beta01")
+    debugApi(libs.androidx.ui.test.manifest)
 }
