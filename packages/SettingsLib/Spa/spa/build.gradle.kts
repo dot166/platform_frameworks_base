@@ -87,7 +87,7 @@ dependencies {
     api("androidx.compose.material:material-icons-extended:1.7.8")
     api("androidx.compose.ui:ui-tooling-preview:1.11.2")
     api("androidx.graphics:graphics-shapes-android:1.1.0")
-    api("androidx.lifecycle:lifecycle-runtime-compose")
+    api("androidx.lifecycle:lifecycle-runtime-compose:2.9.0")
     api("androidx.navigation:navigation-compose:2.9.7")
     api("androidx.window:window:1.5.1")
     api("com.github.PhilJay:MPAndroidChart:v3.1.0-alpha") // external/MPAndroidChart
