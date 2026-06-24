@@ -7,9 +7,7 @@ import java.time.format.DateTimeFormatter
 val libMinSdk: Int = 31
 val libCompileSdkMajor: Int = 37
 val libCompileSdkMinor: Int = 0
-val buildTime: String = LocalDateTime.now()
-    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"))
-val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.$buildTime"
+val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.${providers.environmentVariable("BUILD_NUMBER").get()}"
 
 plugins {
     alias(libs.plugins.android.library)
