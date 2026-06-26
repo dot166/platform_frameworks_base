@@ -47,9 +47,9 @@ kotlin {
 }
 
 fun getModuleVersion(moduleName: String): String {
-    return providers.gradleProperty("${moduleName}_VERSION")
-        .orElse(version.toString())
-        .get()
+    return "${libCompileSdkMajor + 100}.$libCompileSdkMinor.${
+        providers.gradleProperty("${moduleName}_VERSION").orElse(version.toString()).get()
+    }"
 }
 
 dependencies {
