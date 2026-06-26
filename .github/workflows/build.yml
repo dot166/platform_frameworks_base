@@ -14,15 +14,35 @@ jobs:
   filter-paths:
     runs-on: ubuntu-latest
     outputs:
-      should_publish: ${{ steps.filter.outputs.should_publish }}
+      # Expose individual module changes
+      collapsing: ${{ steps.filter.outputs.collapsing }}
+      color: ${{ steps.filter.outputs.color }}
+      datastore: ${{ steps.filter.outputs.datastore }}
+      theme: ${{ steps.filter.outputs.theme }}
+      spa: ${{ steps.filter.outputs.spa }}
+      # Separate check for root files (like build.gradle.kts at the root of SettingsLib)
+      root_only: ${{ steps.filter.outputs.root_only }}
     steps:
       - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
-            should_publish:
-              - 'packages/SettingsLib/**'
+            collapsing:
+              - 'packages/SettingsLib/CollapsingToolbarBaseActivity/**'
+            color:
+              - 'packages/SettingsLib/Color/**'
+            datastore:
+              - 'packages/SettingsLib/DataStore/**'
+            theme:
+              - 'packages/SettingsLib/SettingsTheme/**'
+            spa:
+              - 'packages/SettingsLib/Spa/**'
+            root_only:
+              - 'packages/SettingsLib/gradle/**'
+              - 'packages/SettingsLib/build.gradle.kts'
+              - 'packages/SettingsLib/gradle.properties'
+              - 'packages/SettingsLib/settings.gradle.kts'
 
   build:
     runs-on: ubuntu-latest
@@ -73,8 +93,57 @@ jobs:
         cd packages/SettingsLib
         ./gradlew assembleRelease
 
-    - name: Publish to Maven Central
-      if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/17' && github.repository == 'dot166/platform_frameworks_base' && needs.filter-paths.outputs.should_publish == 'true' }}
+    - name: Publish to Maven Central & Auto-Update Config
+      if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/17' && github.repository == 'dot166/platform_frameworks_base' }}
       run: |
         cd packages/SettingsLib
-        ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+        CURRENT_VER="137.0.${{ env.BUILD_NUMBER }}"
+
+        TASKS=""
+        UPDATED_PROPERTIES=false
+
+        if [ "${{ needs.filter-paths.outputs.collapsing }}" = "true" ]; then
+          TASKS="$TASKS :CollapsingToolbarBaseActivity:publishAndReleaseToMavenCentral -Ppublish_collapsing=true"
+          sed -i "s/^collapsing_VERSION=.*/collapsing_VERSION=$CURRENT_VER/" gradle.properties
+          UPDATED_PROPERTIES=true
+        fi
+        if [ "${{ needs.filter-paths.outputs.color }}" = "true" ]; then
+          TASKS="$TASKS :Color:publishAndReleaseToMavenCentral -Ppublish_color=true"
+          sed -i "s/^color_VERSION=.*/color_VERSION=$CURRENT_VER/" gradle.properties
+          UPDATED_PROPERTIES=true
+        fi
+        if [ "${{ needs.filter-paths.outputs.datastore }}" = "true" ]; then
+          TASKS="$TASKS :DataStore:publishAndReleaseToMavenCentral -Ppublish_datastore=true"
+          sed -i "s/^datastore_VERSION=.*/datastore_VERSION=$CURRENT_VER/" gradle.properties
+          UPDATED_PROPERTIES=true
+        fi
+        if [ "${{ needs.filter-paths.outputs.theme }}" = "true" ]; then
+          TASKS="$TASKS :SettingsTheme:publishAndReleaseToMavenCentral -Ppublish_theme=true"
+          sed -i "s/^theme_VERSION=.*/theme_VERSION=$CURRENT_VER/" gradle.properties
+          UPDATED_PROPERTIES=true
+        fi
+        if [ "${{ needs.filter-paths.outputs.spa }}" = "true" ]; then
+          TASKS="$TASKS :Spa:publishAndReleaseToMavenCentral -Ppublish_spa=true"
+          sed -i "s/^spa_VERSION=.*/spa_VERSION=$CURRENT_VER/" gradle.properties
+          UPDATED_PROPERTIES=true
+        fi
+
+        if [ -n "$TASKS" ] || [ "${{ needs.filter-paths.outputs.root_only }}" = "true" ]; then
+          TASKS="$TASKS :publishAndReleaseToMavenCentral"
+        fi
+
+        if [ -n "$TASKS" ]; then
+          echo "Executing targeted publishing..."
+          ./gradlew $TASKS --no-configuration-cache
+
+          if [ "$UPDATED_PROPERTIES" = true ]; then
+            echo "Publish successful. Writing version state changes back to repository..."
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add gradle.properties
+            git commit -m "chore(ci): bump module versions [skip ci]"
+            git push origin HEAD:${{ github.ref }}
+          fi
+        else
+          echo "No changes found across any workspace modules"
+        fi
