@@ -1,13 +1,11 @@
 import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SourcesJar
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 val libMinSdk: Int = 31
 val libCompileSdkMajor: Int = 37
 val libCompileSdkMinor: Int = 0
-val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.${providers.environmentVariable("BUILD_NUMBER").get()}"
+val Ver: String = "${libCompileSdkMajor + 100}.$libCompileSdkMinor.${providers.environmentVariable("BUILD_NUMBER").orElse("0").get()}"
 
 plugins {
     alias(libs.plugins.android.library)
@@ -48,12 +46,42 @@ kotlin {
     }
 }
 
+fun getModuleVersion(moduleName: String): String {
+    return providers.gradleProperty("${moduleName}_VERSION")
+        .orElse(version.toString())
+        .get()
+}
+
 dependencies {
-    api(project(":CollapsingToolbarBaseActivity"))
-    api(project(":Color"))
-    api(project(":DataStore"))
-    api(project(":SettingsTheme"))
-    api(project(":Spa"))
+    if (providers.gradleProperty("publish_collapsing").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":CollapsingToolbarBaseActivity"))
+    } else {
+        api("io.github.dot166:SettingsLibCollapsingToolbarBaseActivity:${getModuleVersion("collapsing")}")
+    }
+
+    if (providers.gradleProperty("publish_color").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":Color"))
+    } else {
+        api("io.github.dot166:SettingsLibColor:${getModuleVersion("color")}")
+    }
+
+    if (providers.gradleProperty("publish_datastore").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":DataStore"))
+    } else {
+        api("io.github.dot166:SettingsLibDataStore:${getModuleVersion("datastore")}")
+    }
+
+    if (providers.gradleProperty("publish_theme").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":SettingsTheme"))
+    } else {
+        api("io.github.dot166:SettingsLibSettingsTheme:${getModuleVersion("theme")}")
+    }
+
+    if (providers.gradleProperty("publish_spa").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":Spa"))
+    } else {
+        api("io.github.dot166:SpaLib:${getModuleVersion("spa")}")
+    }
 }
 
 val nameVal = "SettingsLib"

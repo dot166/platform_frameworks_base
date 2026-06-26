@@ -80,8 +80,18 @@ kotlin {
     }
 }
 
+fun getModuleVersion(moduleName: String): String {
+    return providers.gradleProperty("${moduleName}_VERSION")
+        .orElse(version.toString())
+        .get()
+}
+
 dependencies {
-    api(project(":Color"))
+    if (providers.gradleProperty("publish_color").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":Color"))
+    } else {
+        api("io.github.dot166:SettingsLibColor:${getModuleVersion("color")}")
+    }
     api(libs.androidx.appcompat)
     api(libs.androidx.material3)
     api(libs.androidx.material.icons.extended)
