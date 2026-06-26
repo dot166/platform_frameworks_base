@@ -24,9 +24,21 @@ jobs:
       root_only: ${{ steps.filter.outputs.root_only }}
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Determine Base Ref for Workflow Dispatch
+        id: base-ref
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~1")
+            echo "base=$LATEST_TAG" >> $GITHUB_OUTPUT
+          else
+            echo "base=" >> $GITHUB_OUTPUT
+          fi
       - uses: dorny/paths-filter@v4
         id: filter
         with:
+          base: ${{ steps.base-ref.outputs.base }}
           filters: |
             collapsing:
               - 'packages/SettingsLib/CollapsingToolbarBaseActivity/**'
