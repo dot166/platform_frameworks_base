@@ -46,8 +46,18 @@ kotlin {
     }
 }
 
+fun getModuleVersion(moduleName: String): String {
+    return providers.gradleProperty("${moduleName}_VERSION")
+        .orElse(version.toString())
+        .get()
+}
+
 dependencies {
-    api(project(":SettingsTheme"))
+    if (providers.gradleProperty("publish_theme").map { it.toBoolean() }.getOrElse(false)) {
+        api(project(":SettingsTheme"))
+    } else {
+        api("io.github.dot166:SettingsLibSettingsTheme:${getModuleVersion("theme")}")
+    }
     api(libs.androidx.core.ktx)
     api(libs.material)
 }
