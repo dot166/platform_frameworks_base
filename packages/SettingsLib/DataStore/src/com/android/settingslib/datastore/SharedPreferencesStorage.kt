@@ -154,7 +154,7 @@ constructor(
         }
 
     @VisibleForTesting
-    internal open fun mergeSharedPreferences(
+    open fun mergeSharedPreferences(
         sharedPreferences: SharedPreferences,
         entries: Map<String, Any?>,
         operation: String,

@@ -20,10 +20,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SettingsLib"
-include(":CollapsingToolbarBaseActivity")
 include(":Color")
 include(":DataStore")
-include(":SettingsTheme")
 include(":Spa")
 project(":Spa").projectDir = File("Spa/spa")
 include(":Spa:gallery")
