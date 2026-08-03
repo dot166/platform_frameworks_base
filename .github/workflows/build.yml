@@ -15,10 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       # Expose individual module changes
-      collapsing: ${{ steps.filter.outputs.collapsing }}
       color: ${{ steps.filter.outputs.color }}
       datastore: ${{ steps.filter.outputs.datastore }}
-      theme: ${{ steps.filter.outputs.theme }}
       spa: ${{ steps.filter.outputs.spa }}
       # Separate check for root files (like build.gradle.kts at the root of SettingsLib)
       root_only: ${{ steps.filter.outputs.root_only }}
@@ -40,20 +38,15 @@ jobs:
         with:
           base: ${{ steps.base-ref.outputs.base }}
           filters: |
-            collapsing:
-              - 'packages/SettingsLib/CollapsingToolbarBaseActivity/**'
             color:
               - 'packages/SettingsLib/Color/**'
             datastore:
               - 'packages/SettingsLib/DataStore/**'
-            theme:
-              - 'packages/SettingsLib/SettingsTheme/**'
             spa:
               - 'packages/SettingsLib/Spa/**'
             root_only:
               - 'packages/SettingsLib/gradle/**'
               - 'packages/SettingsLib/build.gradle.kts'
-              - 'packages/SettingsLib/gradle.properties'
               - 'packages/SettingsLib/settings.gradle.kts'
 
   build:
@@ -114,11 +107,6 @@ jobs:
         TASKS=""
         UPDATED_PROPERTIES=false
 
-        if [ "${{ needs.filter-paths.outputs.collapsing }}" = "true" ]; then
-          TASKS="$TASKS :CollapsingToolbarBaseActivity:publishAndReleaseToMavenCentral -Ppublish_collapsing=true"
-          sed -i "s/^collapsing_VERSION=.*/collapsing_VERSION=$CURRENT_VER/" gradle.properties
-          UPDATED_PROPERTIES=true
-        fi
         if [ "${{ needs.filter-paths.outputs.color }}" = "true" ]; then
           TASKS="$TASKS :Color:publishAndReleaseToMavenCentral -Ppublish_color=true"
           sed -i "s/^color_VERSION=.*/color_VERSION=$CURRENT_VER/" gradle.properties
@@ -127,11 +115,6 @@ jobs:
         if [ "${{ needs.filter-paths.outputs.datastore }}" = "true" ]; then
           TASKS="$TASKS :DataStore:publishAndReleaseToMavenCentral -Ppublish_datastore=true"
           sed -i "s/^datastore_VERSION=.*/datastore_VERSION=$CURRENT_VER/" gradle.properties
-          UPDATED_PROPERTIES=true
-        fi
-        if [ "${{ needs.filter-paths.outputs.theme }}" = "true" ]; then
-          TASKS="$TASKS :SettingsTheme:publishAndReleaseToMavenCentral -Ppublish_theme=true"
-          sed -i "s/^theme_VERSION=.*/theme_VERSION=$CURRENT_VER/" gradle.properties
           UPDATED_PROPERTIES=true
         fi
         if [ "${{ needs.filter-paths.outputs.spa }}" = "true" ]; then
@@ -153,7 +136,7 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add gradle.properties
-            git commit -m "chore(ci): bump module versions [skip ci]"
+            git commit -m "chore(ci): bump module versions [skips ci]"
             git push origin HEAD:${{ github.ref }}
           fi
         else

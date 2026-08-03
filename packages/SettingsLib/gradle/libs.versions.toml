@@ -17,7 +17,6 @@ maven = "0.37.0"
 mockitoCore = "5.23.0"
 mpandroidchart = "v3.1.0-alpha"
 navigationCompose = "2.9.8"
-preference = "1.2.1"
 kotlin = "2.4.0" # external/kotlinc/build.txt
 dexmaker-mockito = "2.28.6"
 mockito-kotlin = "6.3.0" # external/mockito-kotlin/METADATA
@@ -43,7 +42,6 @@ androidx-lifecycle-runtime-testing = { module = "androidx.lifecycle:lifecycle-ru
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-androidx-preference = { module = "androidx.preference:preference", version.ref = "preference" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTooling" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTooling" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
