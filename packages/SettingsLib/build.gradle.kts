@@ -53,12 +53,6 @@ fun getModuleVersion(moduleName: String): String {
 }
 
 dependencies {
-    if (providers.gradleProperty("publish_collapsing").map { it.toBoolean() }.getOrElse(false)) {
-        api(project(":CollapsingToolbarBaseActivity"))
-    } else {
-        api("io.github.dot166:SettingsLibCollapsingToolbarBaseActivity:${getModuleVersion("collapsing")}")
-    }
-
     if (providers.gradleProperty("publish_color").map { it.toBoolean() }.getOrElse(false)) {
         api(project(":Color"))
     } else {
@@ -69,12 +63,6 @@ dependencies {
         api(project(":DataStore"))
     } else {
         api("io.github.dot166:SettingsLibDataStore:${getModuleVersion("datastore")}")
-    }
-
-    if (providers.gradleProperty("publish_theme").map { it.toBoolean() }.getOrElse(false)) {
-        api(project(":SettingsTheme"))
-    } else {
-        api("io.github.dot166:SettingsLibSettingsTheme:${getModuleVersion("theme")}")
     }
 
     if (providers.gradleProperty("publish_spa").map { it.toBoolean() }.getOrElse(false)) {
